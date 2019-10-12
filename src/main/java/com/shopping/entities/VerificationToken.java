@@ -1,5 +1,6 @@
 package com.shopping.entities;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
@@ -14,13 +15,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import lombok.Data;
-
 @Entity
 @Table(name = "verification_token")
-public class VerificationToken {
+public class VerificationToken implements Serializable {
 
-	private static final int EXPIRATION = 60 * 24;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7234134685331226556L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>E-Shopping</title>
+</head>
+<body>
+<h1 style="text-align:center;color:red;">E-Shopping</h1>
+<a href="/go_to_cart">Cart</a>
+	<table align="center">
+		<thead>
+			<tr>
+			<th>Id</th>
+			<th>Product Name</th>
+			<th>Description</th>
+			<th>Image</th>
+			<th>Price</th>
+			<th>Delete</th>
+			<th>Update</th>
+			</tr>
+		</thead>
+		<tbody>
+			<!-- <tr th:if="${products.empty}">
+				<td colspan="5"><span>No products available</span></td>
+			</tr> -->
+			<tr th:each="product : ${products}">
+				<td><span th:text="${product.id}"></span></td>
+				<td><span th:text="${product.name}"></span></td>
+				<td><span th:text="${product.description}"></span></td>
+				<td><img th:src="${product.imageUrl}"  height="200" width="200"></td>
+				<td><span th:text="${product.price}"></span></td>
+				<td><a th:href="@{'/delete_product?id='+${product.id}}">delete</a></td>
+				<td><a th:href="@{'/update_product?id='+${product.id}}">edit</a></td>
+				<td><a th:href="@{'/add_to_cart?id='+${product.id}}">Add to Cart</a></td>
+			</tr>
+		</tbody>
+	</table>
+	
+</body>
+</html>

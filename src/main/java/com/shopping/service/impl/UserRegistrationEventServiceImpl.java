@@ -32,7 +32,7 @@ public class UserRegistrationEventServiceImpl implements UserRegistrationEventSe
         
         String recipientAddress = user.getEmail();
         String subject = "Account registration confirmation";
-        String confirmationUrl = event.getAppUrl() + "/regitrationConfirm?token=" + token;
+        String confirmationUrl = event.getAppUrl() + "/regitration_confirm?token=" + token;
        
         
         EmailPayload emailPayload = new EmailPayload();

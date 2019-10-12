@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>E-Shopping</title>
+</head>
+<body>
+	<div><span style="color:green;" th:text="${message}"></span></div>
+	<form th:action="@{/add_product}" th:object="${product}" method="post">
+		<pre>
+		<input type = "text" th:field="*{name}" placeholder = "Product name">
+		  <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">..</span>
+		
+		<input type = "text" th:field="*{price}"  placeholder = "Product price">
+		  <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}">..</span>
+		
+		<input type = "text" th:field="*{description}"  placeholder = "Product description">
+		  <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}">..</span>
+		
+		<input type = "text" th:field="*{imageUrl}" placeholder = "Image">
+		  <span th:if="${#fields.hasErrors('imageUrl')}" th:errors="*{imageUrl}">..</span>
+		  
+		<input type = "text" th:field="*{category}" placeholder = "Category">
+		  <span th:if="${#fields.hasErrors('category')}" th:errors="*{category}">..</span>
+		
+		<input type = "submit" value = "Save Product">
+		</pre>
+	</form>
+	
+</body>
+</html>

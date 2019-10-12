@@ -1,5 +1,7 @@
 package com.shopping.entities;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,12 +14,16 @@ import lombok.Data;
 @Entity
 @Table(name = "user")
 @Data
-public class User {
+public class User implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4253858375178703049L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "user_id")
-	private int id;
+	private Long id;
 	
 	@Column(name = "first_name")
 	private String firstName;

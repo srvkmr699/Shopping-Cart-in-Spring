@@ -55,7 +55,7 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public boolean isUserValid(LoginDto loginDto) {
 		User user = userRepository.findByEmail(loginDto.getEmail());
-		if((user.getEmail().equals(loginDto.getEmail())) && (user.getPassword().equals(loginDto.getPassword()) && user.isEnabled())) {
+		if(user.getPassword().equals(loginDto.getPassword()) && user.isEnabled()) {
 			return true;
 		}
 		return false;

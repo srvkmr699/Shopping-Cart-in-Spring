@@ -2,6 +2,7 @@ package com.shopping.controllers;
 
 import java.util.Calendar;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
@@ -28,6 +29,11 @@ import com.shopping.models.UserDto;
 import com.shopping.service.IUserService;
 import com.shopping.service.UserRegistrationEventService;
 
+/**
+ * 
+ * @author akshay
+ *
+ */
 @Controller("users")
 public class UserController {
 
@@ -54,10 +60,6 @@ public class UserController {
 			}
 			user = userService.createUserAccount(user);
 
-			if (user == null) {
-				bindingResult.rejectValue("email", "message.regError");
-			}
-
 			String appUrl = request.getContextPath();
 			userRegistrationEventService
 					.confirmUserRegistrationEvent(new OnRegistrationCompleteEvent(user, request.getLocale(), appUrl));
@@ -65,30 +67,27 @@ public class UserController {
 		} catch (EmailExitsException emailExistsException) {
 			return new ModelAndView("registration", "message", emailExistsException.getMessage());
 		} catch (Exception me) {
-			return new ModelAndView("emailError", "user", userDto);
+			return new ModelAndView("email_error", "user", userDto);
 		}
-
-		return new ModelAndView("successRegister", "message", "Activation link has been sent to your e-mail");
+		return new ModelAndView("registration", "message", "Activation link has been sent to your e-mail");
 	}
 
-	@RequestMapping(value = "/regitrationConfirm", method = RequestMethod.GET)
+	@RequestMapping(value = "/regitration_confirm", method = RequestMethod.GET)
 	public String confirmRegistration(@RequestParam("token") String token, ModelMap modelMap) {
 
 		VerificationToken verificationToken = userService.getVerificatonToken(token);
 		if (verificationToken == null) {
 			modelMap.addAttribute("errorMessage", "You are not authorized");
-			return "errorpage";
+			return "error_page";
 		}
-
 		User user = verificationToken.getUser();
 		Calendar calendar = Calendar.getInstance();
 		if (verificationToken.getExpiryDate().getTime() - calendar.getTime().getTime() <= 0) {
 			modelMap.addAttribute("errorMessage", "Activation link has been expired");
-			return "errorpage";
+			return "error_page";
 		}
 		user.setEnabled(true);
 		userService.saveRegisteredUser(user);
-		// modelMap.addAttribute("loginDto", new LoginDto());
 		return "redirect:/login";
 	}
 
@@ -99,13 +98,15 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String userLogin(@ModelAttribute("loginDto") @Valid LoginDto loginDto, BindingResult bindingResult) {
+	public String userLogin(@ModelAttribute("loginDto") @Valid LoginDto loginDto, BindingResult bindingResult,
+			HttpSession session) {
 
 		if (bindingResult.hasErrors()) {
 			return "login";
 		}
-		if(userService.isUserValid(loginDto)) {
-			return "welcomepage";
+		if (userService.isUserValid(loginDto)) {
+			session.setAttribute("email", loginDto.getEmail());
+			return "redirect:/view_products";
 		}
 		return "login";
 	}

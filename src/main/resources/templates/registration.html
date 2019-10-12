@@ -5,6 +5,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<div><span style="color:green;text-align:center;" th:text="${message}"></span></div>
 	<h2 style="color:coral">Sign up</h2>
 	<form th:action="@{/register}" th:object="${user}" method="post">
 		<pre>
