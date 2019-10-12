@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>E-Shopping</title>
+</head>
+<body>
+	
+	<h2 style="color:coral">Login</h2>
+	<form th:action="@{/login}" th:object="${loginDto}"  method="post">
+		<pre> 
+		  Email   	 <input type="text" th:field="*{email}"/>
+		  <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color:red;"></span>
+		 
+		  Password   <input type="password" th:field="*{password}"/>
+		  <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color:red;"></span>
+		  
+		  <input type = "submit" value = "Login"/>
+		  <a href = "/signup">Not yet registered? Sign up</a>
+		</pre>
+	</form>
+</body>
+</html>
